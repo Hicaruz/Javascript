@@ -8,7 +8,6 @@ const estimate_pi = n => {
     }
     return 4 * nums.circle / nums.total
 }
-const pi = estimate_pi(100000000)
-console.log(`${pi}`)
+console.log(estimate_pi(100000000))
 
 
