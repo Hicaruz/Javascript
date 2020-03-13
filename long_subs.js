@@ -9,5 +9,4 @@ var lengthOfLongestSubstring = function (s) {
     }
     return results.reduce((a, b) => a.length > b.length ? a : b, []).join('')
 }
-
 console.log(lengthOfLongestSubstring("pwwkew"))
