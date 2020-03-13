@@ -1,5 +1,5 @@
 const ARNm = ADN => {
-    const data = [...ADN]
+    const data = [...ADN.toUpperCase()]
     for (const base of data) {
         if (!data.includes(base)) {
             return ""
@@ -47,8 +47,8 @@ const ADN2ARN = ADN => {
 }
 
 const ADN = "GTGGTACCACGACAGAGGAATTCAGTT"
-const arnm = ARNm(ADN)
-const codon = Codon(arnm)
-const arnt = ARNt(codon)
+// const arnm = ARNm(ADN)
+// const codon = Codon(arnm)
+// const arnt = ARNt(codon)
 
-console.log(ADN2ARN(arnt))
+console.log(ADN2ARN(ADN))
