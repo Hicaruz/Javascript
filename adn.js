@@ -1,14 +1,25 @@
-const ARNm = ADN => {
+const ARNm = (ADN = "") => {
     const data = [...ADN.toUpperCase()]
+    const bases_complementarias = { A: "U", U: "A", T: "A", G: "C", C: "G" }
     for (const base of data) {
-        if (!data.includes(base)) {
-            return ""
+        if (!Object.keys(bases_complementarias).includes(base)) {
+            throw new Error(`"${base}" no es un valor aceptado`)
         }
     }
-    const bases_complementarias = { A: "U", U: "A", T: "A", G: "C", C: "G" }
     return data.map(base => bases_complementarias[base]).join("")
 }
-const Codon = (arn_mensajero = "") => {
+const ARNt = codon => {
+    const anti_bases = { G: "C", C: "G", A: "U", U: "A" }
+    const partes = []
+    for (let k = 0; k < codon.length; k += 3) {
+        const triplete = codon.slice(k, k + 3)
+        const anti_codon = [...triplete].map(base => anti_bases[base])
+        partes.push(anti_codon.join(""))
+    }
+    return partes.join("-")
+}
+const findCodon = (input = "") => {
+    let arn_mensajero = input.replace(/-/g, '')
     const starter = "AUG"
     const enders = ["UGA", "UAA", "UAG"]
     let codon;
@@ -26,31 +37,11 @@ const Codon = (arn_mensajero = "") => {
 
     return codon
 }
-const ARNt = codon => {
-    const anti_bases = { G: "C", C: "G", A: "U", U: "A" }
-    const partes = []
-    for (let k = 0; k < codon.length; k += 3) {
-        const triplete = codon.slice(k, k + 3)
-        const anti_codon = [...triplete].map(base => anti_bases[base])
-        partes.push(anti_codon.join(""))
-    }
-    return partes.join("-")
-}
 
-const ADN2ARN = ADN => {
-    const arnm = ARNm(ADN)
-    if (!arnm.length) {
-        console.error("La cadena esta vacia")
-    }
-    const codon = Codon(arnm)
-    return ARNt(codon)
-}
-
-const peptidos = input => {
+const findPeptidos = (input = "") => {
     const arnm = []
     for (let k = 0; k < input.length; k += 3) {
         arnm.push(input.slice(k, k + 3))
-
     }
     const result = []
 
@@ -168,10 +159,32 @@ const peptidos = input => {
     }
     return result.join("-")
 }
+const ADN2ARN = ADN => {
+    const arnm = ARNm(ADN)
+    if (!arnm.length) {
+        throw new Error("La cadena esta vacia")
+    }
+    const codon = findCodon(arnm)
+    return ARNt(codon)
+}
+const allAboutIt = (adn = "") => {
+    const arnm = ARNm(adn)
+    if (!arnm.length) {
+        throw new Error("La cadena esta vacia")
+    }
+    const codon = findCodon(arnm)
+    const arnt = ARNt(codon)
+    const peptidos = findPeptidos(codon)
+    return {
+        arnm, arnt, codon, peptidos
+    }
+}
 
-const ADN = "ACGTTTACTTGCCCGCTATGGACACATGGAATTCGTAATTTCG"
-const arnm = ARNm(ADN)
-const codon = Codon(arnm)
-const arnt = ARNt(codon)
-console.log(ADN2ARN(ADN))
-console.log(peptidos(codon))
+exports = {
+    ARNm,
+    ARNt,
+    findCodon,
+    findPeptidos,
+    ADN2ARN,
+    allAboutIt
+}
