@@ -9,3 +9,5 @@ const estimate_pi = n => {
   return (4 * nums.circle) / nums.total;
 };
 console.log(estimate_pi(100000000));
+
+
