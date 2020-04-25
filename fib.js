@@ -14,7 +14,8 @@ const fib_memo = (n, memo) => {
 }
 
 
-const n = 30
+const n = 10
+console.log("node js")
 console.time('time')
 console.log(fib_recur(n))
 console.timeEnd('time')
