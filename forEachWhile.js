@@ -1,10 +1,10 @@
-const forEachWhile = (array, predicate, action) => {
+const forEachWhile = (array, predicate, callback) => {
     for(let index = 0; index < array.length; index++){
         const item = array[index]
         if(!predicate(item, index, array)){
             return
         }
-        action(item, index, array)
+        callback(item, index, array)
     }
 }
 Array.prototype.forEachWhile = function(predicate, action){
@@ -12,9 +12,9 @@ Array.prototype.forEachWhile = function(predicate, action){
 
 }
 const nunbers = [...Array(10)].map((_, i) => i + 1)
-const filter = number => number <= 5
+const condition = number => number <= 5
 
-nunbers.forEachWhile(filter, nunber => {
+nunbers.forEachWhile(condition, nunber => {
     console.log(nunber)
 })
 
