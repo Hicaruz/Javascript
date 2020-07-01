@@ -1,4 +1,4 @@
-const estimate_pi = n => {
+const estimate_pi = (n = 1) => {
   const nums = { circle: 0, total: 0 };
   for (; n > 0; n--) {
     const [x, y] = [Math.random(), Math.random()];
@@ -8,6 +8,8 @@ const estimate_pi = n => {
   }
   return (4 * nums.circle) / nums.total;
 };
-console.log(estimate_pi(100000000));
+const pi = estimate_pi(100000000)
+
+console.log(pi)
 
 
